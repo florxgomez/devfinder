@@ -13,7 +13,7 @@ export default function Header({ theme, toggleTheme }: HeaderProps) {
       <button onClick={toggleTheme}>
         <div className="flex gap-4 font-bold text-[13px] tracking-widest">
           {theme === "light" ? (
-            <div className="text-blue-light pt-0.5 hover:text-[#222731] ">
+            <div className="text-blue-light pt-0.5 hover:text-[#90A4D4] ">
               DARK
             </div>
           ) : (

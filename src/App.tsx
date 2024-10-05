@@ -20,10 +20,23 @@ export type User = {
 };
 
 function App() {
-  const [theme, setTheme] = React.useState<string>("light");
+  const [theme, setTheme] = React.useState<string>(
+    localStorage.theme ?? "light"
+  );
   const [username, setUsername] = React.useState<string>("");
   const [user, setUser] = React.useState<User | undefined>(undefined);
   const [noResults, setNoResults] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (localStorage.theme === "dark" || !("theme" in localStorage)) {
+      //add class=dark in html element
+      document.documentElement.classList.add("dark");
+      setTheme("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      setTheme("light");
+    }
+  }, []);
 
   async function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
@@ -54,20 +67,20 @@ function App() {
   }
 
   function toggleTheme() {
+    if (localStorage.theme === "dark") {
+      localStorage.theme = "light";
+      setTheme("light");
+    } else {
+      localStorage.theme = "dark";
+      setTheme("dark");
+    }
+
     if (localStorage.theme === "dark" || !("theme" in localStorage)) {
       //add class=dark in html element
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-
-    if (localStorage.theme === "dark") {
-      localStorage.theme = "light";
-    } else {
-      localStorage.theme = "dark";
-    }
-
-    setTheme(localStorage.theme === "light" ? "dark" : "light");
   }
 
   return (
