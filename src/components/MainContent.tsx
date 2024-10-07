@@ -5,7 +5,7 @@ import IconTwitter from "../assets/icon-twitter.svg";
 import IconCompany from "../assets/icon-company.svg";
 
 type MainContentProps = {
-  user: User | undefined;
+  user: User;
 };
 
 export default function MainContent({ user }: MainContentProps) {
@@ -26,7 +26,7 @@ export default function MainContent({ user }: MainContentProps) {
             </div>
 
             <p className=" text-blue-light dark:text-white mt-1">
-              Joined {new Date(user.joined).toDateString()}
+              Joined {new Date(user.joined ?? "").toDateString()}
             </p>
           </div>
         </header>

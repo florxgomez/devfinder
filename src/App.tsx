@@ -5,18 +5,18 @@ import MainContent from "./components/MainContent";
 import SearchForm from "./components/SearchForm";
 
 export type User = {
-  username: string;
-  name: string;
-  avatarUrl: string;
-  joined: string;
-  location: string;
-  bio: string;
-  followers: number;
-  following: number;
-  twitterUser: string;
-  blog: string;
-  company: string;
-  repos: number;
+  username?: string;
+  name?: string;
+  avatarUrl?: string;
+  joined?: string;
+  location?: string;
+  bio?: string;
+  followers?: number;
+  following?: number;
+  twitterUser?: string;
+  blog?: string;
+  company?: string;
+  repos?: number;
 };
 
 function App() {
@@ -24,16 +24,16 @@ function App() {
     localStorage.theme ?? "light"
   );
   const [username, setUsername] = React.useState<string>("");
-  const [user, setUser] = React.useState<User | undefined>(undefined);
-  const [noResults, setNoResults] = React.useState<boolean>(false);
+  const [user, setUser] = React.useState<User>({});
 
   React.useEffect(() => {
     if (localStorage.theme === "dark" || !("theme" in localStorage)) {
-      //add class=dark in html element
       document.documentElement.classList.add("dark");
+      localStorage.theme = "dark";
       setTheme("dark");
     } else {
       document.documentElement.classList.remove("dark");
+      localStorage.theme = "light";
       setTheme("light");
     }
   }, []);
@@ -44,8 +44,7 @@ function App() {
     const body = await res.json();
 
     if (body?.message) {
-      setNoResults(true);
-      setUser(undefined);
+      setUser({});
     } else {
       setUser({
         username: body.login,
@@ -61,7 +60,6 @@ function App() {
         blog: body.blog,
         repos: body["public_repos"],
       });
-      setNoResults(false);
       setUsername("");
     }
   }
@@ -91,9 +89,9 @@ function App() {
           username={username}
           setUsername={setUsername}
           onSubmit={handleSubmit}
-          noResults={noResults}
+          showNoResults={!!user?.username}
         />
-        {!noResults && <MainContent user={user} />}
+        {user?.username && <MainContent user={user} />}
       </div>
     </div>
   );

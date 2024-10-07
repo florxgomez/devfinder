@@ -5,14 +5,14 @@ type SearchFormProps = {
   username: string;
   setUsername(newUsername: string): void;
   onSubmit(e: SyntheticEvent): void;
-  noResults: boolean;
+  showNoResults: boolean;
 };
 
 export default function SearchForm({
   username,
   setUsername,
   onSubmit,
-  noResults,
+  showNoResults,
 }: SearchFormProps) {
   return (
     <form onSubmit={onSubmit}>
@@ -28,7 +28,7 @@ export default function SearchForm({
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-          {noResults && (
+          {showNoResults && (
             <span className="text-[#F74646] text-[15px]">No results</span>
           )}
           <button className="bg-primary text-white py-3 px-3 rounded-lg text-[14px] hover:bg-[#60abff]">
